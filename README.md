@@ -19,3 +19,5 @@
 1. To install kiali run `kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/addons/kiali.yaml`
     * To verify that the service is running `kubectl -n istio-system get svc kiali`
 1. Install Jaeger `istioctl dashboard jaeger`
+1. Verify kubernetes dashboard is there [](hr1/kubernetes_dashboard.png?raw=true)
+1. Verify istio querying pods [](hr1/istio_pods.png?raw=true)
