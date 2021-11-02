@@ -16,8 +16,10 @@
     * Make sure to make binary out of the package visible for your `$PATH` (e.g. navigate to istio folder and `echo 'export PATH="$PWD/bin:$PATH"'`)
     * Install istio `istioctl install --set profile=demo -y`
     * Add a namespace label to instruct Istio to automatically inject Envoy sidecar proxies when you deploy your application later `kubectl label namespace default istio-injection=enabled`
-1. To install kiali run `kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/addons/kiali.yaml`
+1. To install kiali run `helm install --namespace istio-system --set auth.strategy="anonymous" --repo https://kiali.org/helm-charts kiali-server kiali-server`
+    * Kiali relies on prometheus to run, so run `kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.7/samples/addons/prometheus.yaml`
     * To verify that the service is running `kubectl -n istio-system get svc kiali`
-1. Install Jaeger `istioctl dashboard jaeger`
+    * See kiali dashboard `istioctl dashboard kiali`
+1. Install Jaeger `kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/addons/jaeger.yaml` and see the dashboard `istioctl dashboard jaeger`
 1. Verify kubernetes dashboard is there [](hr1/kubernetes_dashboard.png?raw=true)
 1. Verify istio querying pods [](hr1/istio_pods.png?raw=true)
