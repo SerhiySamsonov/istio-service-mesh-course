@@ -3,6 +3,7 @@ package com.course.servicemesh.authors.courseservicemeshauthors.models;
 public class Author {
     private int id;
     private String firstName;
+    private String middleName;
     private String lastName;
     private String birthDate;
 
@@ -23,6 +24,14 @@ public class Author {
         return firstName;
     }
 
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -37,6 +46,11 @@ public class Author {
 
     public Author withFirstName(String firstName) {
         this.setFirstName(firstName);
+        return this;
+    }
+
+    public Author withMiddleName(String middleName) {
+        this.setMiddleName(middleName);
         return this;
     }
 
