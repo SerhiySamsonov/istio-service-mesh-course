@@ -1,10 +1,10 @@
 ## Application deployment and telemetry data
 
 1. [Prerequisites](#Prerequisites)
-1. [Build services](#Build services)
-1. [Publish demo application to DockerHub](#Publish demo application to DockerHub)
-1. [Deploy applications to k8s](#Deploy applications to k8s)
-1. [Query application](#Query application)
+1. [Build services](#buildServices)
+1. [Publish demo application to DockerHub](#dockerhub)
+1. [Deploy applications to k8s](#deploy-k8s)
+1. [Query application](#query)
 1. [Kiali](#Kiali)
 1. [Jaeger](#Jaeger)
 1. [Grafana](#Grafana)
@@ -13,16 +13,16 @@
 ### Prerequisites
 Have JDK11 and maven installed.
 
-<a name="Build services"></a>
+<a name="buildServices"></a>
 ### Build services
 `./scripts/build-components.sh`
 
-<a name="Publish demo application to DockerHub"></a>
+<a name="dockerhub"></a>
 ### Publish demo application to DockerHub
 
 `./scripts/publish-components.sh` (make sure to edit script to point it to your personal DockerHub repo)
 
-<a name="Deploy applications to k8s"></a>
+<a name="deploy-k8s"></a>
 ### Deploy applications to k8s
 Make sure to edit the following files to point them to your personal DockerHub repo first:
 - Frontend: `k8s/deployments/frontend.yml`
@@ -33,7 +33,7 @@ Then run the deployment script: `./scripts/deploy-components.sh`
 
 And another script to create an ingress controller and gateway: `./scripts/configure-routing.sh`
 
-<a name="Query application"></a>
+<a name="query"></a>
 ### Query application
 Query your application, e.g.:
 ```
