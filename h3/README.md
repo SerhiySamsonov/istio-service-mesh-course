@@ -33,7 +33,7 @@ Make sure to edit the following files to point them to your personal DockerHub r
 Then run the deployment script: `./scripts/deploy-components.sh`
 
 <a name="canary"></a>
-###Canary deployment
+### Canary deployment
 
 90-10 distribution:
 ![screenshots/canary-90-10.png](screenshots/canary-90-10.png)
@@ -46,7 +46,7 @@ Then run the deployment script: `./scripts/deploy-components.sh`
 ![screenshots/canary-0-100.png](screenshots/canary-0-100.png)
 
 <a name="dev-env"></a>
-###Development environment
+### Development environment
 Feature flag with "developer: ssamsonov" header.
 
 Sending request without headers (landing on a v1)
@@ -56,7 +56,7 @@ Sending request with an appropriate header (landing on a v2 now)
 ![screenshots/dev-env-v2.png](screenshots/dev-env-v2.png)
 
 <a name="resiliency"></a>
-###Service resiliency
+### Service resiliency
 
 Destination rule with ROUND ROBIN strategy and circuit breaking:
 ![screenshots/dest-rule-rr.png](screenshots/dest-rule-rr.png)
