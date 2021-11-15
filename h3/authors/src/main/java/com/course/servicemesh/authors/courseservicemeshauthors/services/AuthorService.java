@@ -23,6 +23,7 @@ public class AuthorService {
             2,
             new Author(2)
                 .withFirstName("Lisa")
+                .withMiddleName("-")
                 .withLastName("Regan")
                 .withBirthDate("03.04.1956")
         );
@@ -30,6 +31,7 @@ public class AuthorService {
             3,
             new Author(3)
                 .withFirstName("Ty")
+                .withMiddleName("-")
                 .withLastName("Patterson")
                 .withBirthDate("08.10.1988")
         );
@@ -47,7 +49,7 @@ public class AuthorService {
                 .withFirstName("Robert")
                 .withMiddleName("Cecil")
                 .withLastName("Martin")
-                .withBirthDate("05.12.19")
+                .withBirthDate("05.12.1952")
         );
     }
 

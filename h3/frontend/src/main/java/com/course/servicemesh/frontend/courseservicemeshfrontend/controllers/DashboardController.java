@@ -12,7 +12,9 @@ import org.asynchttpclient.Response;
 import org.asynchttpclient.util.HttpConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,14 +28,19 @@ public class DashboardController {
     private final static Logger logger = LoggerFactory.getLogger(DashboardController.class);
 
     @GetMapping
-    public Hashtable<String, Object> getDashboard() throws ExecutionException, InterruptedException, ParseException {
+    public Hashtable<String, Object> getDashboard(
+        @RequestHeader(value = "developer", required = false) String devHeader
+    ) throws ExecutionException, InterruptedException, ParseException {
 
         logger.info("Incoming request for dashboard route");
         DefaultAsyncHttpClientConfig.Builder clientBuilder = Dsl.config().setConnectTimeout(500);
         AsyncHttpClient client = Dsl.asyncHttpClient(clientBuilder);
-        Request authorsRequest = new RequestBuilder(HttpConstants.Methods.GET)
-                .setUrl("http://authors:8080/api/v1/authors")
-                .build();
+        var authReqBuilder = new RequestBuilder(HttpConstants.Methods.GET)
+            .setUrl("http://authors:8080/api/v1/authors");
+        if (!StringUtils.isEmpty(devHeader)) {
+            authReqBuilder.setHeader("developer", devHeader);
+        }
+        Request authorsRequest = authReqBuilder.build();
 
         Request booksRequest = new RequestBuilder(HttpConstants.Methods.GET)
                 .setUrl("http://books:8080/api/v1/books")

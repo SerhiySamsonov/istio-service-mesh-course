@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: authors
+  namespace: istio-course
+spec:
+  hosts:
+  - authors
+  http:
+  - match:
+    - headers:
+        developer:
+          exact: ssamsonov
+    route:
+    - destination:
+        host: authors
+        subset: v2
+  - route:
+    - destination:
+        host: authors
+        subset: v1
