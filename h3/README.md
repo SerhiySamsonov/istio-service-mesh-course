@@ -1,63 +1,65 @@
-##Application deployment and telemetry data
+## Application deployment and telemetry data
 
 1. [Prerequisites](#Prerequisites)
-1. [Build services](#Build services)
-1. [Publish demo application to DockerHub](#Publish demo application to DockerHub)
-1. [Deploy applications to k8s](#Deploy applications to k8s)
-1. [Query application](#Query application)
-1. [Kiali](#Kiali)
-1. [Jaeger](#Jaeger)
-1. [Grafana](#Grafana)
+    - [Build services](#buildServices)
+    - [Publish demo application to DockerHub](#dockerhub)
+    - [Deploy applications to k8s](#deploy-k8s)
+1. [Canary deployment](#canary)
+1. [Developer environment](#dev-env)
+1. [Service resiliency](#resiliency)
 
-###Prerequisites
-Have JDK11 and maven installed.
+<a name="Prerequisites"></a>
+### Prerequisites
+See [hometask 2](../h2/README.md)
 
-###Build services
+<a name="buildServices"></a>
+### Build services
 `./scripts/build-components.sh`
 
-###Publish demo application to DockerHub
+Please note that we've changed frontend and authors services only.
+
+<a name="dockerhub"></a>
+### Publish demo application to DockerHub
 
 `./scripts/publish-components.sh` (make sure to edit script to point it to your personal DockerHub repo)
 
-###Deploy applications to k8s
+Please note that authors service is published as v2
+
+<a name="deploy-k8s"></a>
+### Deploy applications to k8s
 Make sure to edit the following files to point them to your personal DockerHub repo first:
-- Frontend: `k8s/deployments/frontend.yml`
-- Book service: `k8s/deployments/book.yml`
-- Author service: `k8s/deployments/author.yml`
+- Author service: `k8s/deployments/author.yml` (also make sure to specify v2)
 
 Then run the deployment script: `./scripts/deploy-components.sh`
 
-And another script to create an ingress controller and gateway: `./scripts/configure-routing.sh`
+<a name="canary"></a>
+###Canary deployment
 
-###Query application
-Query your application, e.g.:
-```
-export MY_APP_HOST=$(kubectl -n istio-course get ingress -o=jsonpath='{.items[].status.loadBalancer.ingress[].hostname}')
-curl $MY_APP_HOST/frontend-catalog/api/v1/dashboard
-```
-![screenshots/http-response.png](screenshots/http-response.png)
+90-10 distribution:
+![screenshots/canary-90-10.png](screenshots/canary-90-10.png)
+![screenshots/canary-90-10-2.png](screenshots/canary-90-10-2.png)
 
-###Kiali
-Check out your Kiali dashboard
+50-50 distribution:
+![screenshots/canary-50-50.png](screenshots/canary-50-50.png)
 
-`istioctl dashboard kiali`
-![screenshots/kiali-applications.png](screenshots/kiali-applications.png)
-![screenshots/kiali-applications.png](screenshots/kiali-graph-3h.png)
+0-100 distribution:
+![screenshots/canary-0-100.png](screenshots/canary-0-100.png)
 
-###Jaeger
-Check out your Jaeger dashboard
+<a name="dev-env"></a>
+###Development environment
+Feature flag with "developer: ssamsonov" header.
 
-`istioctl dashboard jaeger`
-![screenshots/jaeger.png](screenshots/jaeger.png)
+Sending request without headers (landing on a v1)
+![screenshots/dev-env-v1.png](screenshots/dev-env-v1.png)
 
-###Grafana
-Make sure you've actually installed Grafana dashboard for Istio:
+Sending request with an appropriate header (landing on a v2 now)
+![screenshots/dev-env-v2.png](screenshots/dev-env-v2.png)
 
-`kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/addons/grafana.yaml`
+<a name="resiliency"></a>
+###Service resiliency
 
-Check out your Grafana dashboard
+Destination rule with ROUND ROBIN strategy and circuit breaking:
+![screenshots/dest-rule-rr.png](screenshots/dest-rule-rr.png)
 
-`istioctl dashboard grafana`
-![screenshots/grafana-frontend.png.png](screenshots/grafana-frontend.png)
-![screenshots/grafana-books.png.png](screenshots/grafana-books.png)
-![screenshots/grafana-authors.png.png](screenshots/grafana-authors.png)
+Destination rule with RANDOM strategy and circuit breaking:
+![screenshots/dest-rule-rand.png](screenshots/dest-rule-rand.png)
