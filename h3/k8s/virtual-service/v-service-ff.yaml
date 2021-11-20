@@ -19,3 +19,26 @@ spec:
     - destination:
         host: authors
         subset: v1
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: frontend
+  namespace: istio-course
+spec:
+  hosts:
+    - frontend
+  http:
+    - match:
+        - headers:
+            developer:
+              exact: ssamsonov
+      route:
+        - destination:
+            host: frontend
+            subset: v2
+    - route:
+        - destination:
+            host: frontend
+            subset: v1
