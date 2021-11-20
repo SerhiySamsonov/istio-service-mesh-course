@@ -16,19 +16,20 @@ See [hometask 2](../h2/README.md)
 ### Build services
 `./scripts/build-components.sh`
 
-Please note that we've changed frontend and authors services only.
+Please note that we've added new versions of frontend and authors services. They run in our cluster alongside with the original versions.
 
 <a name="dockerhub"></a>
 ### Publish demo application to DockerHub
 
 `./scripts/publish-components.sh` (make sure to edit script to point it to your personal DockerHub repo)
 
-Please note that authors service is published as v2
+Please note that frontend and authors services are published as v2
 
 <a name="deploy-k8s"></a>
 ### Deploy applications to k8s
-Make sure to edit the following files to point them to your personal DockerHub repo first:
-- Author service: `k8s/deployments/author.yml` (also make sure to specify v2)
+Make sure to edit the following files to point them to your personal DockerHub repo first (also make sure to specify v2):
+- Author service: `k8s/deployments/author.yml` 
+- Frontend service: `k8s/deployments/frontend.yml`
 
 Then run the deployment script: `./scripts/deploy-components.sh`
 
@@ -54,6 +55,9 @@ Sending request without headers (landing on a v1)
 
 Sending request with an appropriate header (landing on a v2 now)
 ![screenshots/dev-env-v2.png](screenshots/dev-env-v2.png)
+
+A graph showing how it all works out:
+![screenshots/dev-env-v2-graph.png](screenshots/dev-env-v2-graph.png)
 
 <a name="resiliency"></a>
 ### Service resiliency
