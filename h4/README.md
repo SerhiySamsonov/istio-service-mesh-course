@@ -67,6 +67,7 @@ spec:
 
 <a name="http500"></a>
 ### Fault testing: HTTP 500
+Delay testing implemented via feature-flag (see [v-service-ff-v2-500.yaml](k8s/virtual-service/v-service-ff-v2-500.yaml))
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
